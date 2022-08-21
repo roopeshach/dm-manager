@@ -1,0 +1,139 @@
+{% include 'Services/base.html' %}
+{% load crispy_forms_tags %}
+
+<h3 class="text-primary"> Manage customers</h3>
+<hr>
+
+<button type="button" class="btn btn-primary mb-5" data-mdb-toggle="modal" data-mdb-target="#addcustomer">
+    Add customer
+  </button>
+
+<!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  <div class="modal top fade" id="addcustomer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
+    <div class="modal-dialog modal-xl ">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add New customer</h5>
+          <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+           <div class="card border border-primary p-5">
+            <form method="POST">
+                {% csrf_token %}
+            
+                {{form | crispy}}
+               
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+            Close
+          </button>
+          <input type="submit" value="Add customer" class="btn btn-primary  ">
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <table class="table table-striped table-bordered table-hover mt-3" id="dataTables-example">
+    <thead>
+        <tr>
+            <th> S.N </th>
+            <th>  Name </th>
+            <th>  Email </th>
+            <th> Password </th>
+            <th>  Phone </th>
+            <th>  Address </th>
+            <th> Enrolled Services & packages </th>
+            <th> Paid Amount </th>
+            <th> Action </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in customers %}
+        <tr>
+            <td> {{forloop.counter}} </td>
+            <td> {{c.name}} </td>
+            <td> {{c.email}} </td>
+            <td> {{c.password}} </td>
+            <td> {{c.phone}} </td>
+            <td> {{c.address}} </td>
+            <td> 
+              {% for o in c.orders %}
+                <strong> Order Id: {{o.id}} <br> </strong>
+               <strong> Services: </strong> <br>
+                {% for s in o.service.all %}
+                {{forloop.counter}}. {{s.name}} <br>
+                {% endfor %}
+                
+                <br>
+                <strong> Packages: </strong> <br>
+                
+                {% for p in o.package.all %}
+                {{forloop.counter}}. {{p.name}} <br>
+                {% endfor %}
+                <strong>Total Amount : {{o.total_amount}} </strong> <br> <br>
+              {% endfor %}
+              
+            
+            </td>
+
+            <td> 
+               {% for o in c.orders %}
+               
+                
+                <strong>For order {{o}}: {{o.paid_amount}} </strong> <br> <br>
+              {% endfor %}
+            </td>
+            
+
+            <td>
+                
+                <a href="/update-customer/{{c.id}}" class="btn btn-secondary ">
+                    <i class="fa fa-edit"></i>
+                </a>
+                <a  class="btn btn-danger"  data-mdb-toggle="modal" data-mdb-target="#deleteModal">
+                    <i class="fa fa-trash"></i>
+                </a>
+
+
+             
+                    <!-- Modal -->
+                    <div class="modal top fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
+                        <div class="modal-dialog modal-sm  modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Alert!</h5>
+                            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete this category?</p>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                                No
+                            </button>
+                            <a href="/delete-customer/{{c.id}}" class="btn btn-danger">
+                                Yes!
+                            </a>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% include 'Services/footer.html' %}
+
+<script>
+    $(document).ready( function () {
+    $('.table').DataTable();
+  } );
+  </script>

@@ -1,0 +1,13 @@
+{% include 'Services/base.html' %}
+
+{% load crispy_forms_tags %}
+<h3 class="text-primary"> Edit Vendor {{vendor.name}} </h3>
+<form method="POST">
+    {% csrf_token %}
+    {{form | crispy}}
+    <br>
+    <input type="submit" value="Edit Vendor" class="btn btn-success">
+</form>
+<br>
+
+{% include 'Services/footer.html' %}

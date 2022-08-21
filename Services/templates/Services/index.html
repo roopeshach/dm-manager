@@ -1,0 +1,115 @@
+{% include 'Services/base.html' %}
+<div class="row">
+
+
+<div class="col-md-3">
+    <div class="card text-center" >
+        <div class="card-body">
+            <a href="/attendee">
+                <button class="btn btn-primary btn-lg text-center">
+                    <i class="fas fa-server fa-3x"></i>         
+                </button>
+              </a>
+          
+                <h3 class="text-primary mt-3">
+                    Total Services
+                </h3>
+                <h3 class="text-secondary mt-3">
+                      {{services.count}}
+              </h3>
+
+                
+        </div>
+    </div>
+</div>
+
+<div class="col-md-3">
+    <div class="card text-center" >
+        <div class="card-body">
+            <a href="/attendee">
+                <button class="btn btn-success btn-lg text-center">
+                    <i class="fas fa-archive fa-3x"></i>         
+                </button>
+              </a>
+          
+                <h3 class="text-primary mt-3">
+                    Total Packages
+                </h3>
+                <h3 class="text-secondary mt-3">
+                      {{packages.count}}
+              </h3>
+
+                
+        </div>
+    </div>
+</div>
+
+<div class="col-md-3">
+    <div class="card text-center" >
+        <div class="card-body">
+            <a href="/attendee">
+                <button class="btn btn-secondary btn-lg text-center">
+                    <i class="fas fa-users fa-3x"></i>         
+                </button>
+              </a>
+          
+                <h3 class="text-primary mt-3">
+                    Total Customers
+                </h3>
+                <h3 class="text-secondary mt-3">
+                      {{customers.count}}
+              </h3>
+
+                
+        </div>
+    </div>
+</div>
+
+<div class="col-md-3">
+    <div class="card text-center" >
+        <div class="card-body">
+            <a href="/attendee">
+                <button class="btn btn-danger btn-lg text-center">
+                    <i class="fas fa-user fa-3x"></i>         
+                </button>
+              </a>
+          
+                <h3 class="text-primary mt-3">
+                    Total Vendors
+                </h3>
+                <h3 class="text-secondary mt-3">
+                      {{vendors.count}}
+              </h3>
+
+                
+        </div>
+    </div>
+</div>
+</div>
+<hr>
+<div class="row">
+    <div class="card text-center" >
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <th>S.N</th>
+                    <th>Customer</th>
+                    <th> Order Count</th>
+                </thead>
+                <tbody>
+                    {% for customer in customerwise_orders %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{customer.customer}}</td>
+                            <td>{{customer.orders}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+                
+        </div>
+    </div>
+  
+</div>
+{% include 'Services/footer.html' %}
