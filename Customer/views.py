@@ -29,22 +29,25 @@ def logout_customer(request):
     return redirect('customer:login-customer')
 
 def customer_home(request):
-    orders = Order.objects.filter(customer=request.session['customer'])
-    customer = Customer.objects.get(id=request.session['customer'])
-    total_paid = 0
-    total_amount = 0
-    remaining_amount = 0
-    for order in orders:
-        total_paid += order.paid_amount
-        remaining_amount  += (order.total_amount - order.paid_amount)
-        total_amount += order.total_amount
-    
+    if request.session.has_key('customer'):
+        orders = Order.objects.filter(customer=request.session['customer'])
+        customer = Customer.objects.get(id=request.session['customer'])
+        total_paid = 0
+        total_amount = 0
+        remaining_amount = 0
+        for order in orders:
+            total_paid += order.paid_amount
+            remaining_amount  += (order.total_amount - order.paid_amount)
+            total_amount += order.total_amount
+        
 
-    context = {
-        'orders': orders,
-        'customer': customer, 
-        'total_paid': total_paid,
-        'remaining_amount': remaining_amount,
-        'total_amount': total_amount,
-    }
-    return render(request, 'Customer/home.html', context)
+        context = {
+            'orders': orders,
+            'customer': customer, 
+            'total_paid': total_paid,
+            'remaining_amount': remaining_amount,
+            'total_amount': total_amount,
+        }
+        return render(request, 'Customer/home.html', context)
+    else:
+        return redirect('customer:login-customer')
