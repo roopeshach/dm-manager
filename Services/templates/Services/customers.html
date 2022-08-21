@@ -2,6 +2,11 @@
 {% load crispy_forms_tags %}
 
 <h3 class="text-primary"> Manage customers</h3>
+{% for m in messages %}
+              <div class="alert alert-danger">
+                {{ m }}
+              </div>
+            {% endfor %}
 <hr>
 
 <button type="button" class="btn btn-primary mb-5" data-mdb-toggle="modal" data-mdb-target="#addcustomer">
